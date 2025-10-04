@@ -6,10 +6,12 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import CreateAccount from "./components/CreateAccount";
 import RecoverAccount from "./components/RecoverAccount";
+import WalletView from "./components/WalletView";
 
 function App() {
+  const [wallet, setWallet] = useState(null);
+  const [seedPhrase, setSeedPhrase] = useState(null);
   const [selectedChain, setSelectedChain] = useState("0x1");
-
 
   return (
     <div className="App">
@@ -39,11 +41,36 @@ function App() {
           className="dropdown"
         ></Select>
       </header>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/recover" element={<RecoverAccount />} />
-        <Route path="/yourwallet" element={<CreateAccount />} />
-      </Routes>
+      {wallet && seedPhrase ? (
+        <Routes>
+          <Route
+            path="/yourwallet"
+            element={
+              <WalletView
+                wallet={wallet}
+                setWallet={setWallet}
+                seedPhrase={seedPhrase}
+                setSeedPhrase={setSeedPhrase}
+                selectedChain={selectedChain}
+              />
+            }
+          />
+        </Routes>
+      ) : (
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/recover" element={<RecoverAccount />} />
+          <Route
+            path="/yourwallet"
+            element={
+              <CreateAccount
+                setSeedPhrase={setSeedPhrase}
+                setWallet={setWallet}
+              />
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 }

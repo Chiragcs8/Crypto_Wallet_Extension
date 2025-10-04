@@ -42,6 +42,7 @@ function WalletView() {
   return (
     <>
       <div className="content">
+        Wallet View
       </div>
     </>
   );
