@@ -10,6 +10,7 @@ import {
   Button,
 } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
+import logo from "../noImg.png";
 import { useNavigate } from "react-router-dom";
 
 const tokens = [
@@ -54,6 +55,84 @@ function WalletView({
 }) {
   const navigate = useNavigate();
 
+  const items = [
+    {
+      key: "3",
+      label: `Tokens`,
+      children: (
+        <>
+          {tokens ? (
+            <>
+              <List
+                bordered
+                itemLayout="horizontal"
+                dataSource={tokens}
+                renderItem={(item, index) => (
+                  <List.Item style={{ textAlign: "left" }}>
+                    <List.Item.Meta
+                      avatar={<Avatar src={item.logo || logo} />}
+                      title={item.symbol}
+                      description={item.name}
+                    />
+                    <div>
+                      {(
+                        Number(item.balance) /
+                        10 ** Number(item.decimals)
+                      ).toFixed(2)}{" "}
+                      Tokens
+                    </div>
+                  </List.Item>
+                )}
+              />
+            </>
+          ) : (
+            <>
+              <span>You seem to not have any tokens yet</span>
+            </>
+          )}
+        </>
+      ),
+    },
+    {
+      key: "2",
+      label: `NFTs`,
+      children: (
+        <>
+          {nfts ? (
+            <>
+              {nfts.map((e, i) => {
+                return (
+                  <>
+                    {e && (
+                      <img
+                        key={i}
+                        className="nftImage"
+                        alt="nftImage"
+                        src={e}
+                      />
+                    )}
+                  </>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              <span>You seem to not have any NFTs yet</span>
+            </>
+          )}
+        </>
+      ),
+    },
+    {
+      key: "1",
+      label: `Transfer`,
+      children: 
+      <>
+      
+      </>,
+    },
+  ];
+
   function logout() {
     setSeedPhrase(null);
     setWallet(null);
@@ -69,7 +148,14 @@ function WalletView({
         <div className="logoutButton" onClick={logout}>
           <LogoutOutlined />
         </div>
-        
+        <div className="walletName">Wallet</div>
+        <Tooltip title={wallet}>
+          <div>
+            {wallet.slice(0, 4)}...{wallet.slice(38)}
+          </div>
+        </Tooltip>
+        <Divider />
+        <Tabs defaultActiveKey="1" items={items} className="walletView" />
       </div>
     </>
   );
