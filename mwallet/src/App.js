@@ -29,14 +29,6 @@ function App() {
               label: "Mumbai Testnet",
               value: "0x13881",
             },
-            {
-              label: "Polygon",
-              value: "0x89",
-            },
-            {
-              label: "Avalanche",
-              value: "0xa86a",
-            },
           ]}
           className="dropdown"
         ></Select>
